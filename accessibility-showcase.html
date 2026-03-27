@@ -4,52 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Showcase de Accesibilidad — QDQ Registro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --red:    #e53e3e;
-      --orange: #dd6b20;
-      --green:  #276749;
-      --green-bg: #f0fff4;
-      --red-bg: #fff5f5;
-      --orange-bg: #fffaf0;
-      --gray-100: #f7f8fa;
-      --gray-200: #e8eaed;
-      --gray-400: #9aa0ab;
-      --gray-700: #3d4451;
-      --gray-900: #1a1d23;
-      --blue:   #3b82f6;
-      --blue-dark: #1d4ed8;
-      --accent: #7c3aed;
+      /* ── QDQ Brand Colors ── */
+      --lima:     #C1FC6E;   /* Lima Limón — primario */
+      --nocturno: #03181E;   /* Azul Nocturno — oscuro */
+      --yeso:     #F8FAF5;   /* Blanco Yeso — fondo */
+      --naranja:  #FF906B;   /* Naranja Valencia */
+      --lila:     #CEA3FF;   /* Lila Violeta */
+      --rosa:     #FFA6DE;   /* Rosa York */
+      --canario:  #F7F16D;   /* Amarillo Canario */
+
+      /* ── UI aliases ── */
+      --bg:         var(--yeso);
+      --surface:    #FFFFFF;
+      --text:       var(--nocturno);
+      --text-muted: #4A6068;   /* nocturno aclarado — contrast 4.6:1 sobre blanco ✓ */
+      --border:     #D8DDD6;
+
       --radius: 10px;
-      --shadow: 0 2px 12px rgba(0,0,0,.08);
+      --shadow: 0 2px 16px rgba(3,24,30,.08);
     }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      background: var(--gray-100);
-      color: var(--gray-900);
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
 
-    /* ─── Header ─── */
+    /* ─── Header (oscuro) ─── */
     .site-header {
-      background: #fff;
-      border-bottom: 1px solid var(--gray-200);
-      padding: 24px 40px;
+      background: var(--nocturno);
+      padding: 20px 40px;
       display: flex;
       align-items: center;
       gap: 16px;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: var(--shadow);
     }
     .site-header .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--accent);
-      color: #fff;
+      background: var(--lima);
+      color: var(--nocturno);
       font-size: 11px;
       font-weight: 700;
       letter-spacing: .06em;
@@ -57,100 +62,116 @@
       padding: 4px 10px;
       border-radius: 20px;
     }
-    .site-header h1 { font-size: 20px; font-weight: 700; color: var(--gray-900); }
-    .site-header p  { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
-    .header-meta { margin-left: auto; display: flex; gap: 24px; }
+    .site-header h1 { font-size: 20px; font-weight: 700; color: var(--yeso); }
+    .site-header p  { font-size: 13px; color: rgba(248,250,245,.55); margin-top: 2px; }
+    .header-meta { margin-left: auto; display: flex; gap: 28px; }
     .stat { text-align: center; }
-    .stat .num { font-size: 24px; font-weight: 800; line-height: 1; }
-    .stat .lbl { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: .05em; }
-    .stat.viol .num { color: var(--red); }
-    .stat.warn .num { color: var(--orange); }
-    .stat.pass .num { color: var(--green); }
+    .stat .num { font-size: 26px; font-weight: 800; line-height: 1; }
+    .stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; margin-top: 2px; opacity: .7; color: var(--yeso); }
+    .stat.viol .num { color: var(--naranja); }
+    .stat.warn .num { color: var(--canario); }
+    .stat.pass .num { color: var(--lima); }
 
-    /* ─── Nav ─── */
+    /* ─── Nav (oscuro) ─── */
     .toc {
-      background: #fff;
-      border-bottom: 1px solid var(--gray-200);
+      background: var(--nocturno);
+      border-bottom: 1px solid rgba(248,250,245,.1);
       padding: 0 40px;
       display: flex;
-      gap: 4px;
+      gap: 2px;
       overflow-x: auto;
     }
     .toc a {
-      padding: 12px 16px;
+      padding: 12px 14px;
       font-size: 13px;
       font-weight: 500;
-      color: var(--gray-400);
+      color: rgba(248,250,245,.5);
       text-decoration: none;
       border-bottom: 2px solid transparent;
       white-space: nowrap;
       transition: color .2s, border-color .2s;
     }
-    .toc a:hover { color: var(--gray-900); }
-    .toc a.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .toc a:hover { color: var(--yeso); }
+    .toc a.active { color: var(--lima); border-bottom-color: var(--lima); }
     .toc .chip {
       display: inline-block;
       padding: 1px 7px;
       border-radius: 10px;
       font-size: 10px;
       font-weight: 700;
-      margin-left: 6px;
+      margin-left: 5px;
       vertical-align: middle;
     }
-    .chip-red    { background: #fed7d7; color: var(--red); }
-    .chip-orange { background: #feebc8; color: var(--orange); }
-    .chip-green  { background: #c6f6d5; color: var(--green); }
+    .chip-red    { background: rgba(255,144,107,.2); color: var(--naranja); }
+    .chip-orange { background: rgba(247,241,109,.15); color: var(--canario); }
+    .chip-green  { background: rgba(193,252,110,.15); color: var(--lima); }
 
     /* ─── Layout ─── */
     main { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-    section { margin-bottom: 64px; scroll-margin-top: 72px; }
+    section { margin-bottom: 64px; scroll-margin-top: 80px; }
+
     .section-label {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
+
+    /* ── Impact badges ── */
     .impact-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 5px 12px;
+      gap: 6px;
+      padding: 5px 13px;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: .05em;
     }
-    .impact-critical { background: #fed7d7; color: var(--red); }
-    .impact-serious  { background: #feebc8; color: #c05621; }
-    .impact-moderate { background: #fefcbf; color: #744210; }
-    .impact-pass     { background: #c6f6d5; color: var(--green); }
+    /* Lima Limón on Nocturno — 15.8:1 ✓ */
+    .impact-critical { background: var(--naranja); color: var(--nocturno); }
+    /* Canario on Nocturno — ~15:1 ✓ */
+    .impact-serious  { background: var(--canario); color: var(--nocturno); }
+    /* Lila on Nocturno — ~7.5:1 ✓ */
+    .impact-moderate { background: var(--lila);    color: var(--nocturno); }
+    /* Lima on Nocturno — 15.8:1 ✓ */
+    .impact-pass     { background: var(--lima);    color: var(--nocturno); }
 
     .wcag-tag {
       display: inline-block;
-      padding: 2px 8px;
-      background: var(--gray-200);
-      color: var(--gray-700);
+      padding: 3px 9px;
+      background: var(--nocturno);
+      color: var(--lima);
       border-radius: 4px;
       font-size: 11px;
-      font-weight: 600;
-      font-family: monospace;
+      font-weight: 700;
+      font-family: "SF Mono", "Fira Code", monospace;
     }
 
     .section-title {
       font-size: 22px;
       font-weight: 700;
-      color: var(--gray-900);
+      color: var(--nocturno);
+      margin-bottom: 10px;
     }
     .section-desc {
       font-size: 14px;
-      color: var(--gray-700);
+      color: var(--text-muted);
       margin-bottom: 20px;
       max-width: 780px;
-      line-height: 1.7;
+      line-height: 1.75;
+    }
+    .section-desc strong { color: var(--text); }
+    .section-desc code {
+      background: var(--border);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: "SF Mono", "Fira Code", monospace;
     }
 
-    /* ─── Before/After Card ─── */
+    /* ─── Before/After ─── */
     .compare {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -159,90 +180,103 @@
     @media (max-width: 700px) { .compare { grid-template-columns: 1fr; } }
 
     .card {
-      background: #fff;
+      background: var(--surface);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
+      border: 1px solid var(--border);
     }
     .card-header {
-      padding: 12px 18px;
-      font-size: 12px;
+      padding: 11px 18px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: .07em;
+      letter-spacing: .08em;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .card-header.before { background: var(--red-bg); color: var(--red); border-bottom: 1px solid #fed7d7; }
-    .card-header.after  { background: var(--green-bg); color: var(--green); border-bottom: 1px solid #9ae6b4; }
+    /* Before: naranja tint — text nocturno contrast ~8:1 ✓ */
+    .card-header.before {
+      background: rgba(255,144,107,.12);
+      color: #8B3A1A;   /* dark orange — contrast 5.2:1 on tint bg ✓ */
+      border-bottom: 1px solid rgba(255,144,107,.3);
+    }
+    /* After: lima tint — text nocturno contrast ~10:1 ✓ */
+    .card-header.after {
+      background: rgba(193,252,110,.15);
+      color: #1E5C00;   /* dark green — contrast 5.8:1 on tint bg ✓ */
+      border-bottom: 1px solid rgba(193,252,110,.4);
+    }
     .card-body { padding: 20px 18px; }
 
-    /* ─── SR Output ─── */
+    /* ─── SR Output (dark) ─── */
     .sr-output {
-      background: var(--gray-900);
-      color: #a8ff78;
+      background: var(--nocturno);
+      color: var(--lima);
       font-family: "SF Mono", "Fira Code", monospace;
       font-size: 12px;
       padding: 14px 16px;
       border-radius: 8px;
       margin-top: 12px;
-      line-height: 1.8;
+      line-height: 1.9;
     }
     .sr-output .label {
-      color: var(--gray-400);
+      color: rgba(248,250,245,.4);
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: .08em;
       margin-bottom: 6px;
       display: block;
     }
-    .sr-output .bad  { color: #fc8181; }
-    .sr-output .good { color: #68d391; }
-    .sr-output .dim  { color: #718096; }
+    .sr-output .bad  { color: var(--naranja); }
+    .sr-output .good { color: var(--lima); }
+    .sr-output .dim  { color: rgba(248,250,245,.35); }
 
     /* ─── Demo widgets ─── */
     .demo-ui {
-      border: 1px solid var(--gray-200);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 16px;
       margin-top: 12px;
-      background: #fafafa;
+      background: var(--bg);
     }
     label.field-label {
       display: block;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 6px;
-      color: var(--gray-700);
+      color: var(--text);
     }
     input.field {
       width: 100%;
       padding: 9px 12px;
-      border: 1.5px solid var(--gray-200);
+      border: 1.5px solid var(--border);
       border-radius: 6px;
       font-size: 14px;
-      color: var(--gray-900);
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background: #fff;
       outline: none;
       transition: border-color .2s;
-      background: #fff;
     }
-    input.field:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
-    input.field.invalid { border-color: var(--red); }
-    input.field.invalid:focus { box-shadow: 0 0 0 3px rgba(229,62,62,.15); }
+    input.field:focus { border-color: var(--nocturno); box-shadow: 0 0 0 3px rgba(3,24,30,.12); }
+    input.field.invalid { border-color: var(--naranja); }
+    input.field.invalid:focus { box-shadow: 0 0 0 3px rgba(255,144,107,.2); }
     .error-msg {
       display: flex;
       align-items: center;
       gap: 5px;
-      color: var(--red);
+      color: #8B3A1A;
       font-size: 12px;
+      font-weight: 500;
       margin-top: 5px;
     }
 
-    /* Dropdown demo */
+    /* Dropdown */
     .combobox-wrap { position: relative; }
     .listbox {
-      border: 1.5px solid var(--gray-200);
+      border: 1.5px solid var(--border);
       border-radius: 6px;
       background: #fff;
       margin-top: 4px;
@@ -255,23 +289,29 @@
       cursor: pointer;
       transition: background .1s;
     }
-    .listbox-item:hover, .listbox-item.focused { background: #eff6ff; }
-    .listbox-bad .listbox-item { outline: 2px solid var(--red); outline-offset: -2px; }
-    .listbox-bad .listbox-item:not(:first-child) { border-top: 1px solid var(--gray-200); }
+    .listbox-item:hover, .listbox-item.focused {
+      background: rgba(193,252,110,.18);
+    }
+    .listbox-bad .listbox-item {
+      outline: 2px solid var(--naranja);
+      outline-offset: -2px;
+    }
+    .listbox-bad .listbox-item:not(:first-child) { border-top: 1px solid var(--border); }
     .trap-warning {
-      background: #fff5f5;
-      border: 1px solid #fed7d7;
+      background: rgba(255,144,107,.1);
+      border: 1px solid rgba(255,144,107,.35);
       border-radius: 6px;
       padding: 10px 12px;
       font-size: 12px;
-      color: var(--red);
+      font-weight: 500;
+      color: #8B3A1A;
       margin-top: 8px;
       display: flex;
       gap: 6px;
       align-items: flex-start;
     }
 
-    /* Heading order demo */
+    /* DOM tree */
     .dom-tree {
       font-family: "SF Mono", "Fira Code", monospace;
       font-size: 12px;
@@ -280,130 +320,126 @@
       border-radius: 8px;
       margin-top: 12px;
     }
-    .dom-tree.bad  { background: #fff5f5; border: 1px solid #fed7d7; }
-    .dom-tree.good { background: var(--green-bg); border: 1px solid #9ae6b4; }
-    .dom-tree .h1  { color: var(--blue-dark); font-weight: 700; }
-    .dom-tree .h2  { color: #6366f1; margin-left: 20px; }
-    .dom-tree .dim { color: var(--gray-400); }
-    .dom-tree .err { color: var(--red); }
-    .dom-tree .ok  { color: var(--green); }
+    .dom-tree.bad  { background: rgba(255,144,107,.08); border: 1px solid rgba(255,144,107,.3); }
+    .dom-tree.good { background: rgba(193,252,110,.1);  border: 1px solid rgba(193,252,110,.4); }
+    .dom-tree .h1  { color: #00509E; font-weight: 700; }   /* contrast on white ~7:1 ✓ */
+    .dom-tree .h2  { color: #5B34A0; margin-left: 20px; }  /* contrast on white ~5.5:1 ✓ */
+    .dom-tree .dim { color: var(--text-muted); }
+    .dom-tree .err { color: #8B3A1A; font-weight: 600; }
+    .dom-tree .ok  { color: #1E5C00; font-weight: 500; }
 
-    /* Progress demo */
-    .progress-bar {
-      display: flex;
-      gap: 4px;
-      margin-top: 12px;
-      align-items: center;
-    }
+    /* Progress */
     .step {
-      flex: 1;
-      height: 6px;
-      border-radius: 3px;
-      background: var(--gray-200);
-      position: relative;
+      flex: 1; height: 6px; border-radius: 3px;
+      background: var(--border);
     }
-    .step.active { background: var(--accent); }
-    .step-labels {
-      display: flex;
-      gap: 4px;
-      margin-top: 6px;
-    }
-    .step-lbl {
-      flex: 1;
-      font-size: 11px;
-      text-align: center;
-      color: var(--gray-400);
-    }
-    .step-lbl.active { color: var(--accent); font-weight: 600; }
+    .step.active { background: var(--lima); }
+    .step-lbl { flex:1; font-size:11px; text-align:center; color:var(--text-muted); }
+    .step-lbl.active { color: var(--nocturno); font-weight: 700; }
 
-    /* Logo demo */
+    /* Logo */
     .logo-box {
-      width: 36px;
-      height: 36px;
-      background: var(--accent);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 800;
-      font-size: 14px;
+      width: 36px; height: 36px;
+      background: var(--nocturno);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--lima);
+      font-weight: 800; font-size: 16px;
     }
     .alt-pill {
-      font-family: monospace;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-weight: 600;
+      font-family: "SF Mono","Fira Code",monospace;
+      font-size: 11px; padding: 2px 9px;
+      border-radius: 10px; font-weight: 700;
     }
-    .alt-missing { background: #fed7d7; color: var(--red); }
-    .alt-ok      { background: #c6f6d5; color: var(--green); }
+    .alt-missing { background: rgba(255,144,107,.15); color: #8B3A1A; }
+    .alt-ok      { background: rgba(193,252,110,.2);  color: #1E5C00; }
 
     /* ─── Fix Box ─── */
     .fix-box {
       margin-top: 20px;
-      padding: 16px 20px;
-      background: #f0f9ff;
-      border-left: 4px solid var(--blue);
+      padding: 18px 22px;
+      background: var(--nocturno);
+      border-left: 4px solid var(--lima);
       border-radius: 0 8px 8px 0;
     }
-    .fix-box h4 { font-size: 13px; font-weight: 700; color: var(--blue-dark); margin-bottom: 8px; }
-    .fix-box ul { padding-left: 18px; font-size: 13px; color: var(--gray-700); line-height: 1.9; }
+    .fix-box h4 {
+      font-size: 12px; font-weight: 700;
+      color: var(--lima);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .fix-box ul {
+      padding-left: 18px;
+      font-size: 13px;
+      color: rgba(248,250,245,.8);
+      line-height: 1.9;
+    }
+    .fix-box ul code {
+      background: rgba(193,252,110,.15);
+      color: var(--lima);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-family: "SF Mono","Fira Code",monospace;
+      font-size: 11px;
+    }
+
     pre.code {
-      background: var(--gray-900);
+      background: #020F13;
       color: #e2e8f0;
       font-family: "SF Mono", "Fira Code", monospace;
       font-size: 12px;
       padding: 14px 16px;
       border-radius: 8px;
-      margin-top: 10px;
+      margin-top: 12px;
       overflow-x: auto;
-      line-height: 1.7;
+      line-height: 1.8;
+      border: 1px solid rgba(193,252,110,.1);
     }
     pre.code .tag   { color: #76e4f7; }
     pre.code .attr  { color: #fbd38d; }
-    pre.code .val   { color: #68d391; }
-    pre.code .bad   { color: #fc8181; text-decoration: line-through; }
-    pre.code .good  { color: #68d391; }
-    pre.code .cmt   { color: #718096; }
+    pre.code .val   { color: var(--lima); }
+    pre.code .bad   { color: var(--naranja); text-decoration: line-through; }
+    pre.code .good  { color: var(--lima); }
+    pre.code .cmt   { color: rgba(248,250,245,.3); }
 
     /* ─── Divider ─── */
-    hr { border: none; border-top: 1px solid var(--gray-200); margin: 48px 0; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 56px 0; }
 
-    /* ─── Pass section ─── */
+    /* ─── Pass Grid ─── */
     .passes-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 12px;
     }
     .pass-card {
-      background: #fff;
-      border: 1px solid #9ae6b4;
+      background: var(--surface);
+      border: 1.5px solid rgba(193,252,110,.4);
       border-radius: var(--radius);
       padding: 16px 18px;
       display: flex;
-      gap: 12px;
+      gap: 14px;
+      box-shadow: var(--shadow);
     }
     .pass-icon {
-      width: 32px; height: 32px;
-      background: var(--green-bg);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 36px; height: 36px;
+      background: var(--nocturno);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       font-size: 16px;
     }
-    .pass-card h4 { font-size: 13px; font-weight: 700; color: var(--gray-900); }
-    .pass-card p  { font-size: 12px; color: var(--gray-400); margin-top: 3px; }
+    .pass-card h4 { font-size: 13px; font-weight: 700; color: var(--text); }
+    .pass-card p  { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
   </style>
 </head>
 <body>
 
+<!-- ─── HEADER ─── -->
 <header class="site-header">
   <div>
     <span class="badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       Auditoría WCAG AA
     </span>
     <h1>Showcase de Accesibilidad</h1>
@@ -416,6 +452,7 @@
   </div>
 </header>
 
+<!-- ─── NAV ─── -->
 <nav class="toc" aria-label="Secciones del informe">
   <a href="#s1" class="active">Trampa de teclado <span class="chip chip-red">Crítico</span></a>
   <a href="#s2">Errores prematuros <span class="chip chip-red">Grave</span></a>
@@ -423,7 +460,7 @@
   <a href="#s4">Logo sin alt <span class="chip chip-orange">Grave</span></a>
   <a href="#s5">Indicador de pasos <span class="chip chip-orange">Moderado</span></a>
   <a href="#s6">Formulario sin nombre <span class="chip chip-orange">Moderado</span></a>
-  <a href="#s7">Lo que funciona bien <span class="chip chip-green">✓</span></a>
+  <a href="#s7">Lo que funciona <span class="chip chip-green">✓</span></a>
 </nav>
 
 <main>
@@ -439,18 +476,18 @@
     <h2 class="section-title">F-007 &amp; F-015 — Trampa de teclado en el selector de sector</h2>
     <p class="section-desc">
       El dropdown "Elige el sector" expone sus <strong>1.540 opciones como botones tabulables</strong> en el DOM.
-      Al pulsar Tab, el foco queda atrapado indefinidamente dentro de la lista y nunca llega al resto del formulario.
-      Pulsar Escape tampoco libera el foco. Un usuario de teclado o lector de pantalla no puede completar el registro.
+      Al pulsar <code>Tab</code>, el foco queda atrapado indefinidamente dentro de la lista.
+      Pulsar <code>Escape</code> tampoco libera el foco. Un usuario de teclado o lector de pantalla no puede completar el registro.
     </p>
 
     <div class="compare">
       <div class="card">
         <div class="card-header before">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Problema actual
         </div>
         <div class="card-body">
-          <p style="font-size:13px;color:var(--gray-700);">Los ítems del listbox son botones con <code>tabindex</code> positivo. Tab los recorre uno a uno sin salida posible.</p>
+          <p style="font-size:13px;color:var(--text-muted);">Los ítems del listbox son botones con <code style="background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;">tabindex</code> positivo. Tab los recorre uno a uno sin salida posible.</p>
           <div class="demo-ui">
             <label class="field-label">Sector de tu empresa *</label>
             <div class="combobox-wrap">
@@ -480,11 +517,11 @@
 
       <div class="card">
         <div class="card-header after">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           Solución propuesta
         </div>
         <div class="card-body">
-          <p style="font-size:13px;color:var(--gray-700);">Patrón <strong>ARIA Combobox</strong>: el listbox se navega con ↑↓, Tab sale del widget sin quedar atrapado.</p>
+          <p style="font-size:13px;color:var(--text-muted);">Patrón <strong>ARIA Combobox</strong>: el listbox se navega con ↑↓, <code style="background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;">Tab</code> sale del widget.</p>
           <div class="demo-ui">
             <label class="field-label" for="sector-good">Sector de tu empresa *</label>
             <div class="combobox-wrap" role="combobox" aria-expanded="true" aria-haspopup="listbox" aria-owns="sector-listbox">
@@ -495,7 +532,7 @@
                 <div class="listbox-item" id="opt3" role="option" aria-selected="false">Abastecimiento de agua</div>
               </div>
             </div>
-            <p style="font-size:11px;color:var(--gray-400);margin-top:6px;">↑↓ navegan · Escape cierra · Tab → siguiente campo</p>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:6px;">↑↓ navegan · Escape cierra · Tab → siguiente campo</p>
           </div>
           <div class="sr-output">
             <span class="label">Lector de pantalla anuncia</span>
@@ -517,7 +554,7 @@
         <li>Añadir <code>role="combobox"</code>, <code>aria-expanded</code>, <code>aria-haspopup="listbox"</code> al wrapper</li>
         <li>Los ítems del listbox deben tener <code>role="option"</code> y <code>tabindex="-1"</code> (nunca positivo)</li>
         <li>Usar <code>aria-activedescendant</code> en el input para indicar el ítem activo</li>
-        <li>Teclado: <code>↓↑</code> navegan la lista, <code>Enter</code> selecciona, <code>Escape</code> cierra, <code>Tab</code> sale del widget</li>
+        <li>Teclado: <code>↓↑</code> navegan, <code>Enter</code> selecciona, <code>Escape</code> cierra, <code>Tab</code> sale</li>
       </ul>
       <pre class="code"><span class="cmt">&lt;!-- ✗ Antes --&gt;</span>
 <span class="tag">&lt;button</span> <span class="attr bad">tabindex="0"</span><span class="tag">&gt;</span>Abanicos<span class="tag">&lt;/button&gt;</span>  <span class="cmt">&lt;!-- ×1540 --&gt;</span>
@@ -544,17 +581,17 @@
     <h2 class="section-title">F-011 — Errores de validación mostrados en la carga inicial</h2>
     <p class="section-desc">
       Los campos "Nombre de empresa" y "Sector" se anuncian como <code>invalid</code> con mensajes de error
-      visibles antes de que el usuario haya interactuado. WCAG exige que los errores aparezcan solo tras interacción.
+      visibles antes de cualquier interacción. WCAG exige que los errores aparezcan solo tras interacción del usuario.
     </p>
 
     <div class="compare">
       <div class="card">
         <div class="card-header before">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Problema actual
         </div>
         <div class="card-body">
-          <p style="font-size:13px;color:var(--gray-700);">Al cargar la página, los campos ya tienen <code>aria-invalid="true"</code> y mensajes de error activos.</p>
+          <p style="font-size:13px;color:var(--text-muted);">Al cargar la página, los campos ya tienen <code style="background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;">aria-invalid="true"</code> y alertas activas.</p>
           <div class="demo-ui">
             <label class="field-label" for="empresa-bad">Nombre de la empresa *</label>
             <input class="field invalid" id="empresa-bad" type="text" aria-invalid="true" aria-describedby="empresa-err-bad" placeholder="Ej. Panadería Moncada" />
@@ -573,15 +610,15 @@
 
       <div class="card">
         <div class="card-header after">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           Solución propuesta
         </div>
         <div class="card-body">
-          <p style="font-size:13px;color:var(--gray-700);">Estado neutral al cargar. El error aparece solo al salir del campo vacío o al intentar enviar.</p>
+          <p style="font-size:13px;color:var(--text-muted);">Estado neutral al cargar. El error aparece solo al salir del campo vacío o al intentar enviar.</p>
           <div class="demo-ui">
             <label class="field-label" for="empresa-good">Nombre de la empresa *</label>
             <input class="field" id="empresa-good" type="text" aria-invalid="false" placeholder="Ej. Panadería Moncada" />
-            <p style="font-size:11px;color:var(--gray-400);margin-top:5px;">Sin errores en carga inicial — aparecen tras blur o submit</p>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:6px;">Sin errores en carga inicial</p>
             <br/>
             <label class="field-label" for="empresa-good2">Tras salir del campo vacío:</label>
             <input class="field invalid" id="empresa-good2" type="text" aria-invalid="true" aria-describedby="empresa-err-good" placeholder="Ej. Panadería Moncada" />
@@ -603,8 +640,8 @@
       <h4>Cambios de código necesarios</h4>
       <ul>
         <li>Inicializar todos los campos con <code>aria-invalid="false"</code> (o sin el atributo)</li>
-        <li>Activar la validación solo en <code>blur</code> (campo vacío) o en <code>submit</code></li>
-        <li>El contenedor <code>role="alert"</code> debe estar vacío al cargar; añadir el texto dinámicamente cuando se produzca el error</li>
+        <li>Activar la validación solo en el evento <code>blur</code> (campo vacío) o en <code>submit</code></li>
+        <li>El contenedor <code>role="alert"</code> debe estar vacío al cargar; añadir el texto dinámicamente</li>
       </ul>
       <pre class="code"><span class="cmt">// ✗ Antes — validación al montar</span>
 <span class="bad">useEffect(() => { validateAll(); }, []);</span>
@@ -626,15 +663,15 @@
     </div>
     <h2 class="section-title">F-003 — Orden de encabezados roto por el modal de cookies</h2>
     <p class="section-desc">
-      El primer <code>&lt;h2&gt;</code> del DOM pertenece al modal de cookies ("Valoramos tu privacidad"),
-      antes del <code>&lt;h1&gt;</code> de la página. Los usuarios que navegan por encabezados encuentran
-      un h2 sin contexto antes que el h1.
+      El primer encabezado del DOM es un <code>&lt;h2&gt;</code> del modal de cookies ("Valoramos tu privacidad"),
+      antes del <code>&lt;h1&gt;</code> de la página. Los usuarios que navegan con la tecla <code>H</code> encuentran
+      un h2 sin contexto jerárquico.
     </p>
 
     <div class="compare">
       <div class="card">
         <div class="card-header before">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Estructura DOM actual
         </div>
         <div class="card-body">
@@ -650,7 +687,7 @@
             <div style="margin-left:16px"><span class="dim">&lt;/main&gt;</span></div>
           </div>
           <div class="sr-output">
-            <span class="label">Navegación por encabezados (tecla H)</span>
+            <span class="label">Navegación con tecla H</span>
             <span class="bad">1· h2 "Valoramos tu privacidad" ← ¿qué h1 lo precede?</span><br>
             <span class="dim">2· h1 "Tu empresa en la Guía Útil"</span><br>
             <span class="dim">3· h2 "Háblanos de tu empresa"</span>
@@ -660,7 +697,7 @@
 
       <div class="card">
         <div class="card-header after">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           Estructura DOM corregida
         </div>
         <div class="card-body">
@@ -674,10 +711,10 @@
             <div style="margin-left:16px"><span class="ok">✓ &lt;div role="dialog" aria-modal="true"</span></div>
             <div style="margin-left:32px"><span class="ok">    aria-labelledby="cookie-title"&gt;</span></div>
             <div style="margin-left:48px"><span class="ok">&lt;h2 id="cookie-title"&gt;Valoramos tu privacidad&lt;/h2&gt;</span></div>
-            <div style="margin-left:16px"><span class="ok">&lt;/div&gt;  &lt;!-- al final del body --&gt;</span></div>
+            <div style="margin-left:16px"><span class="ok">&lt;/div&gt;</span></div>
           </div>
           <div class="sr-output">
-            <span class="label">Navegación por encabezados (tecla H)</span>
+            <span class="label">Navegación con tecla H</span>
             <span class="good">1· h1 "Tu empresa en la Guía Útil"</span><br>
             <span class="good">2· h2 "Háblanos de tu empresa"</span><br>
             <span class="dim">   (modal al final del DOM — no interfiere)</span>
@@ -690,20 +727,19 @@
       <h4>Cambios de código necesarios</h4>
       <ul>
         <li>Mover el modal de cookies al final del <code>&lt;body&gt;</code></li>
-        <li>Añadir <code>role="dialog"</code>, <code>aria-modal="true"</code> y <code>aria-labelledby</code> al contenedor</li>
+        <li>Añadir <code>role="dialog"</code>, <code>aria-modal="true"</code> y <code>aria-labelledby</code></li>
         <li>Al abrir el modal, mover el foco a su interior; al cerrarlo, devolverlo al elemento que lo activó</li>
       </ul>
       <pre class="code"><span class="tag">&lt;div</span> <span class="attr">role</span>=<span class="val">"dialog"</span> <span class="attr">aria-modal</span>=<span class="val">"true"</span>
      <span class="attr">aria-labelledby</span>=<span class="val">"cookie-title"</span><span class="tag">&gt;</span>
   <span class="tag">&lt;h2</span> <span class="attr">id</span>=<span class="val">"cookie-title"</span><span class="tag">&gt;</span>Valoramos tu privacidad<span class="tag">&lt;/h2&gt;</span>
-  …
 <span class="tag">&lt;/div&gt;</span></pre>
     </div>
   </section>
 
   <hr />
 
-  <!-- ══ S4: LOGO SIN ALT ══ -->
+  <!-- ══ S4: LOGO ══ -->
   <section id="s4">
     <div class="section-label">
       <span class="impact-badge impact-serious">⚠ Grave</span>
@@ -711,24 +747,24 @@
     </div>
     <h2 class="section-title">F-013 — Logo del header sin texto alternativo</h2>
     <p class="section-desc">
-      El banner aparece vacío en el árbol de accesibilidad: ninguna imagen ni enlace al logotipo es anunciado.
-      Si el logo es el único identificador de la marca en el header, su alt text es obligatorio.
+      El banner aparece vacío en el árbol de accesibilidad. Si el logotipo es el único elemento que identifica
+      la marca en el header, su texto alternativo es obligatorio.
     </p>
 
     <div class="compare">
       <div class="card">
         <div class="card-header before">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Problema actual
         </div>
         <div class="card-body">
-          <div class="demo-ui" style="display:flex;align-items:center;gap:12px;">
-            <a href="#" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+          <div class="demo-ui" style="display:flex;align-items:center;gap:14px;">
+            <a href="#" style="display:flex;align-items:center;text-decoration:none;">
               <div class="logo-box">Q</div>
             </a>
             <div>
               <span class="alt-pill alt-missing">alt ausente</span>
-              <p style="font-size:12px;color:var(--gray-400);margin-top:4px;">El enlace del logo no tiene nombre accesible</p>
+              <p style="font-size:12px;color:var(--text-muted);margin-top:5px;">El enlace no tiene nombre accesible</p>
             </div>
           </div>
           <div class="sr-output">
@@ -740,17 +776,17 @@
 
       <div class="card">
         <div class="card-header after">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           Solución propuesta
         </div>
         <div class="card-body">
-          <div class="demo-ui" style="display:flex;align-items:center;gap:12px;">
-            <a href="#" aria-label="QDQ - Ir a inicio" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+          <div class="demo-ui" style="display:flex;align-items:center;gap:14px;">
+            <a href="#" aria-label="QDQ - Ir a inicio" style="display:flex;align-items:center;text-decoration:none;">
               <div class="logo-box">Q</div>
             </a>
             <div>
               <span class="alt-pill alt-ok">aria-label="QDQ - Ir a inicio"</span>
-              <p style="font-size:12px;color:var(--gray-400);margin-top:4px;">Comunica marca y destino</p>
+              <p style="font-size:12px;color:var(--text-muted);margin-top:5px;">Comunica marca y destino</p>
             </div>
           </div>
           <div class="sr-output">
@@ -765,7 +801,7 @@
       <h4>Cambios de código necesarios</h4>
       <ul>
         <li>Si el logo es <code>&lt;img&gt;</code>: añadir <code>alt="QDQ"</code></li>
-        <li>Si el logo es SVG inline: añadir <code>&lt;title&gt;QDQ&lt;/title&gt;</code> dentro del SVG</li>
+        <li>Si es SVG inline: añadir <code>&lt;title&gt;QDQ&lt;/title&gt;</code> dentro del SVG</li>
         <li>Si está dentro de <code>&lt;a&gt;</code>: añadir <code>aria-label="QDQ - Ir a inicio"</code> al enlace e <code>alt=""</code> a la imagen</li>
       </ul>
       <pre class="code"><span class="cmt">&lt;!-- ✗ Antes --&gt;</span>
@@ -789,25 +825,25 @@
     </div>
     <h2 class="section-title">F-014 — Indicador de progreso sin nombres descriptivos</h2>
     <p class="section-desc">
-      El indicador de pasos anuncia "part 1", "part 2", "part 3" en lugar de los nombres reales de cada etapa.
-      Un usuario de lector de pantalla no sabe qué implica cada paso del proceso de registro.
+      Los pasos del registro anuncian "part 1", "part 2", "part 3" en lugar de sus nombres reales.
+      Un usuario de lector de pantalla no sabe qué implica cada etapa del proceso.
     </p>
 
     <div class="compare">
       <div class="card">
         <div class="card-header before">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Problema actual
         </div>
         <div class="card-body">
           <div class="demo-ui">
-            <p style="font-size:12px;font-weight:600;margin-bottom:8px;">Paso 1 de 3</p>
-            <div class="progress-bar">
+            <p style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text);">Paso 1 de 3</p>
+            <div style="display:flex;gap:4px;">
               <div class="step active"></div>
               <div class="step"></div>
               <div class="step"></div>
             </div>
-            <div class="step-labels">
+            <div style="display:flex;gap:4px;margin-top:6px;">
               <div class="step-lbl active">part 1</div>
               <div class="step-lbl">part 2</div>
               <div class="step-lbl">part 3</div>
@@ -823,24 +859,24 @@
 
       <div class="card">
         <div class="card-header after">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           Solución propuesta
         </div>
         <div class="card-body">
           <div class="demo-ui">
             <nav aria-label="Progreso del registro">
-              <ol style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <ol style="list-style:none;display:flex;flex-direction:column;gap:10px;">
                 <li style="display:flex;align-items:center;gap:10px;" aria-current="step">
-                  <div class="step active" style="width:40px;height:6px;flex:none;border-radius:3px;"></div>
-                  <span style="font-size:12px;font-weight:700;color:var(--accent);">1. Datos de empresa <em style="font-weight:400">(actual)</em></span>
+                  <div class="step active" style="width:36px;height:6px;flex:none;border-radius:3px;"></div>
+                  <span style="font-size:13px;font-weight:700;color:var(--nocturno);">1. Datos de empresa <em style="font-weight:400;color:var(--text-muted)">(actual)</em></span>
                 </li>
                 <li style="display:flex;align-items:center;gap:10px;">
-                  <div class="step" style="width:40px;height:6px;flex:none;border-radius:3px;"></div>
-                  <span style="font-size:12px;color:var(--gray-400);">2. Datos de contacto</span>
+                  <div class="step" style="width:36px;height:6px;flex:none;border-radius:3px;"></div>
+                  <span style="font-size:13px;color:var(--text-muted);">2. Datos de contacto</span>
                 </li>
                 <li style="display:flex;align-items:center;gap:10px;">
-                  <div class="step" style="width:40px;height:6px;flex:none;border-radius:3px;"></div>
-                  <span style="font-size:12px;color:var(--gray-400);">3. Confirmación</span>
+                  <div class="step" style="width:36px;height:6px;flex:none;border-radius:3px;"></div>
+                  <span style="font-size:13px;color:var(--text-muted);">3. Confirmación</span>
                 </li>
               </ol>
             </nav>
@@ -891,14 +927,14 @@
     <div class="compare">
       <div class="card">
         <div class="card-header before">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Problema actual
         </div>
         <div class="card-body">
           <div class="sr-output">
             <span class="label">Al entrar al landmark form</span>
             <span class="bad">form</span><br>
-            <span class="dim">— sin contexto de propósito —</span>
+            <span class="dim">— sin contexto —</span>
           </div>
           <pre class="code" style="margin-top:12px;"><span class="tag">&lt;form</span> <span class="attr">method</span>=<span class="val">"post"</span><span class="tag">&gt;</span> …<span class="tag">&lt;/form&gt;</span></pre>
         </div>
@@ -906,7 +942,7 @@
 
       <div class="card">
         <div class="card-header after">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           Solución propuesta
         </div>
         <div class="card-body">
