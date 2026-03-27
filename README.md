@@ -1,6 +1,6 @@
-# Auditoría de Accesibilidad — QDQ Registro
+# Auditoría de Accesibilidad — qdq Registro Anúnciate Gratis
 
-Análisis de accesibilidad WCAG 2.1 AA del flujo de registro gratuito de QDQ Media, realizado con Virtual Screen Reader mediante Claude Code.
+Análisis de accesibilidad WCAG 2.1 AA del flujo de registro gratuito de qdq, realizado con Virtual Screen Reader mediante Claude Code.
 
 **URL auditada:** https://www.qdq.com/registro/gratuito/step1
 
