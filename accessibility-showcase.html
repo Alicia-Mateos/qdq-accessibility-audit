@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Showcase de Accesibilidad — QDQ Registro</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red:    #e53e3e;
+      --orange: #dd6b20;
+      --green:  #276749;
+      --green-bg: #f0fff4;
+      --red-bg: #fff5f5;
+      --orange-bg: #fffaf0;
+      --gray-100: #f7f8fa;
+      --gray-200: #e8eaed;
+      --gray-400: #9aa0ab;
+      --gray-700: #3d4451;
+      --gray-900: #1a1d23;
+      --blue:   #3b82f6;
+      --blue-dark: #1d4ed8;
+      --accent: #7c3aed;
+      --radius: 10px;
+      --shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      line-height: 1.6;
+    }
+
+    /* ─── Header ─── */
+    .site-header {
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+    .site-header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .site-header h1 { font-size: 20px; font-weight: 700; color: var(--gray-900); }
+    .site-header p  { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+    .header-meta { margin-left: auto; display: flex; gap: 24px; }
+    .stat { text-align: center; }
+    .stat .num { font-size: 24px; font-weight: 800; line-height: 1; }
+    .stat .lbl { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: .05em; }
+    .stat.viol .num { color: var(--red); }
+    .stat.warn .num { color: var(--orange); }
+    .stat.pass .num { color: var(--green); }
+
+    /* ─── Nav ─── */
+    .toc {
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 40px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+    }
+    .toc a {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-400);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color .2s, border-color .2s;
+    }
+    .toc a:hover { color: var(--gray-900); }
+    .toc a.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .toc .chip {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .chip-red    { background: #fed7d7; color: var(--red); }
+    .chip-orange { background: #feebc8; color: var(--orange); }
+    .chip-green  { background: #c6f6d5; color: var(--green); }
+
+    /* ─── Layout ─── */
+    main { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 64px; scroll-margin-top: 72px; }
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .impact-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .impact-critical { background: #fed7d7; color: var(--red); }
+    .impact-serious  { background: #feebc8; color: #c05621; }
+    .impact-moderate { background: #fefcbf; color: #744210; }
+    .impact-pass     { background: #c6f6d5; color: var(--green); }
+
+    .wcag-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--gray-200);
+      color: var(--gray-700);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: monospace;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+    .section-desc {
+      font-size: 14px;
+      color: var(--gray-700);
+      margin-bottom: 20px;
+      max-width: 780px;
+      line-height: 1.7;
+    }
+
+    /* ─── Before/After Card ─── */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 700px) { .compare { grid-template-columns: 1fr; } }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 12px 18px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-header.before { background: var(--red-bg); color: var(--red); border-bottom: 1px solid #fed7d7; }
+    .card-header.after  { background: var(--green-bg); color: var(--green); border-bottom: 1px solid #9ae6b4; }
+    .card-body { padding: 20px 18px; }
+
+    /* ─── SR Output ─── */
+    .sr-output {
+      background: var(--gray-900);
+      color: #a8ff78;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin-top: 12px;
+      line-height: 1.8;
+    }
+    .sr-output .label {
+      color: var(--gray-400);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .sr-output .bad  { color: #fc8181; }
+    .sr-output .good { color: #68d391; }
+    .sr-output .dim  { color: #718096; }
+
+    /* ─── Demo widgets ─── */
+    .demo-ui {
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 12px;
+      background: #fafafa;
+    }
+    label.field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--gray-700);
+    }
+    input.field {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--gray-900);
+      outline: none;
+      transition: border-color .2s;
+      background: #fff;
+    }
+    input.field:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
+    input.field.invalid { border-color: var(--red); }
+    input.field.invalid:focus { box-shadow: 0 0 0 3px rgba(229,62,62,.15); }
+    .error-msg {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    /* Dropdown demo */
+    .combobox-wrap { position: relative; }
+    .listbox {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 6px;
+      background: #fff;
+      margin-top: 4px;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+    .listbox-item {
+      padding: 8px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .1s;
+    }
+    .listbox-item:hover, .listbox-item.focused { background: #eff6ff; }
+    .listbox-bad .listbox-item { outline: 2px solid var(--red); outline-offset: -2px; }
+    .listbox-bad .listbox-item:not(:first-child) { border-top: 1px solid var(--gray-200); }
+    .trap-warning {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+
+    /* Heading order demo */
+    .dom-tree {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 12px;
+      line-height: 2;
+      padding: 14px;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+    .dom-tree.bad  { background: #fff5f5; border: 1px solid #fed7d7; }
+    .dom-tree.good { background: var(--green-bg); border: 1px solid #9ae6b4; }
+    .dom-tree .h1  { color: var(--blue-dark); font-weight: 700; }
+    .dom-tree .h2  { color: #6366f1; margin-left: 20px; }
+    .dom-tree .dim { color: var(--gray-400); }
+    .dom-tree .err { color: var(--red); }
+    .dom-tree .ok  { color: var(--green); }
+
+    /* Progress demo */
+    .progress-bar {
+      display: flex;
+      gap: 4px;
+      margin-top: 12px;
+      align-items: center;
+    }
+    .step {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--gray-200);
+      position: relative;
+    }
+    .step.active { background: var(--accent); }
+    .step-labels {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .step-lbl {
+      flex: 1;
+      font-size: 11px;
+      text-align: center;
+      color: var(--gray-400);
+    }
+    .step-lbl.active { color: var(--accent); font-weight: 600; }
+
+    /* Logo demo */
+    .logo-box {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .alt-pill {
+      font-family: monospace;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .alt-missing { background: #fed7d7; color: var(--red); }
+    .alt-ok      { background: #c6f6d5; color: var(--green); }
+
+    /* ─── Fix Box ─── */
+    .fix-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: #f0f9ff;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+    }
+    .fix-box h4 { font-size: 13px; font-weight: 700; color: var(--blue-dark); margin-bottom: 8px; }
+    .fix-box ul { padding-left: 18px; font-size: 13px; color: var(--gray-700); line-height: 1.9; }
+    pre.code {
+      background: var(--gray-900);
+      color: #e2e8f0;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin-top: 10px;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+    pre.code .tag   { color: #76e4f7; }
+    pre.code .attr  { color: #fbd38d; }
+    pre.code .val   { color: #68d391; }
+    pre.code .bad   { color: #fc8181; text-decoration: line-through; }
+    pre.code .good  { color: #68d391; }
+    pre.code .cmt   { color: #718096; }
+
+    /* ─── Divider ─── */
+    hr { border: none; border-top: 1px solid var(--gray-200); margin: 48px 0; }
+
+    /* ─── Pass section ─── */
+    .passes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .pass-card {
+      background: #fff;
+      border: 1px solid #9ae6b4;
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      gap: 12px;
+    }
+    .pass-icon {
+      width: 32px; height: 32px;
+      background: var(--green-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+    .pass-card h4 { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+    .pass-card p  { font-size: 12px; color: var(--gray-400); margin-top: 3px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <span class="badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Auditoría WCAG AA
+    </span>
+    <h1>Showcase de Accesibilidad</h1>
+    <p>qdq.com/registro/gratuito/step1 · Virtual Screen Reader · 27 mar 2026</p>
+  </div>
+  <div class="header-meta">
+    <div class="stat viol"><div class="num">4</div><div class="lbl">Violaciones</div></div>
+    <div class="stat warn"><div class="num">5</div><div class="lbl">Avisos</div></div>
+    <div class="stat pass"><div class="num">6</div><div class="lbl">Correctos</div></div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Secciones del informe">
+  <a href="#s1" class="active">Trampa de teclado <span class="chip chip-red">Crítico</span></a>
+  <a href="#s2">Errores prematuros <span class="chip chip-red">Grave</span></a>
+  <a href="#s3">Orden encabezados <span class="chip chip-orange">Moderado</span></a>
+  <a href="#s4">Logo sin alt <span class="chip chip-orange">Grave</span></a>
+  <a href="#s5">Indicador de pasos <span class="chip chip-orange">Moderado</span></a>
+  <a href="#s6">Formulario sin nombre <span class="chip chip-orange">Moderado</span></a>
+  <a href="#s7">Lo que funciona bien <span class="chip chip-green">✓</span></a>
+</nav>
+
+<main>
+
+  <!-- ══ S1: TRAMPA DE TECLADO ══ -->
+  <section id="s1">
+    <div class="section-label">
+      <span class="impact-badge impact-critical">🚨 Crítico</span>
+      <span class="wcag-tag">2.1.1</span>
+      <span class="wcag-tag">2.1.2</span>
+      <span class="wcag-tag">2.4.3</span>
+    </div>
+    <h2 class="section-title">F-007 &amp; F-015 — Trampa de teclado en el selector de sector</h2>
+    <p class="section-desc">
+      El dropdown "Elige el sector" expone sus <strong>1.540 opciones como botones tabulables</strong> en el DOM.
+      Al pulsar Tab, el foco queda atrapado indefinidamente dentro de la lista y nunca llega al resto del formulario.
+      Pulsar Escape tampoco libera el foco. Un usuario de teclado o lector de pantalla no puede completar el registro.
+    </p>
+
+    <div class="compare">
+      <div class="card">
+        <div class="card-header before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Problema actual
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--gray-700);">Los ítems del listbox son botones con <code>tabindex</code> positivo. Tab los recorre uno a uno sin salida posible.</p>
+          <div class="demo-ui">
+            <label class="field-label">Sector de tu empresa *</label>
+            <div class="combobox-wrap">
+              <input class="field invalid" type="text" placeholder="Sector de tu empresa" readonly />
+              <div class="listbox listbox-bad">
+                <div class="listbox-item" tabindex="0">Abanicos</div>
+                <div class="listbox-item" tabindex="0">Abastecedores de buques</div>
+                <div class="listbox-item" tabindex="0">Abastecimiento de agua</div>
+                <div class="listbox-item" tabindex="0">Abogados…</div>
+              </div>
+            </div>
+            <div class="trap-warning">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Tab queda atrapado aquí — 1.540 ítems por recorrer
+            </div>
+          </div>
+          <div class="sr-output">
+            <span class="label">Lector de pantalla anuncia</span>
+            <span class="bad">button, Abanicos</span><br>
+            <span class="dim">↩ Tab</span><br>
+            <span class="bad">button, Abastecedores de buques</span><br>
+            <span class="dim">↩ Escape (sin efecto) ↩ Tab</span><br>
+            <span class="bad">button, Abastecimiento de agua [+1.537 más…]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header after">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Solución propuesta
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--gray-700);">Patrón <strong>ARIA Combobox</strong>: el listbox se navega con ↑↓, Tab sale del widget sin quedar atrapado.</p>
+          <div class="demo-ui">
+            <label class="field-label" for="sector-good">Sector de tu empresa *</label>
+            <div class="combobox-wrap" role="combobox" aria-expanded="true" aria-haspopup="listbox" aria-owns="sector-listbox">
+              <input class="field" id="sector-good" type="text" placeholder="Escribe para buscar…" aria-autocomplete="list" aria-controls="sector-listbox" aria-activedescendant="opt1" value="Ab" />
+              <div class="listbox" id="sector-listbox" role="listbox" aria-label="Sectores disponibles">
+                <div class="listbox-item focused" id="opt1" role="option" aria-selected="true">Abanicos</div>
+                <div class="listbox-item" id="opt2" role="option" aria-selected="false">Abastecedores de buques</div>
+                <div class="listbox-item" id="opt3" role="option" aria-selected="false">Abastecimiento de agua</div>
+              </div>
+            </div>
+            <p style="font-size:11px;color:var(--gray-400);margin-top:6px;">↑↓ navegan · Escape cierra · Tab → siguiente campo</p>
+          </div>
+          <div class="sr-output">
+            <span class="label">Lector de pantalla anuncia</span>
+            <span class="good">textbox, Sector, expanded, required</span><br>
+            <span class="dim">↓ ArrowDown</span><br>
+            <span class="good">Abanicos, option 1 of 3</span><br>
+            <span class="dim">↓ Escape</span><br>
+            <span class="good">textbox, Sector, collapsed</span><br>
+            <span class="dim">↓ Tab</span><br>
+            <span class="good">textbox, Página web (opcional)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fix-box">
+      <h4>Cambios de código necesarios</h4>
+      <ul>
+        <li>Añadir <code>role="combobox"</code>, <code>aria-expanded</code>, <code>aria-haspopup="listbox"</code> al wrapper</li>
+        <li>Los ítems del listbox deben tener <code>role="option"</code> y <code>tabindex="-1"</code> (nunca positivo)</li>
+        <li>Usar <code>aria-activedescendant</code> en el input para indicar el ítem activo</li>
+        <li>Teclado: <code>↓↑</code> navegan la lista, <code>Enter</code> selecciona, <code>Escape</code> cierra, <code>Tab</code> sale del widget</li>
+      </ul>
+      <pre class="code"><span class="cmt">&lt;!-- ✗ Antes --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr bad">tabindex="0"</span><span class="tag">&gt;</span>Abanicos<span class="tag">&lt;/button&gt;</span>  <span class="cmt">&lt;!-- ×1540 --&gt;</span>
+
+<span class="cmt">&lt;!-- ✓ Después --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">role</span>=<span class="val">"combobox"</span> <span class="attr">aria-expanded</span>=<span class="val">"true"</span> <span class="attr">aria-haspopup</span>=<span class="val">"listbox"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">aria-autocomplete</span>=<span class="val">"list"</span> <span class="attr">aria-activedescendant</span>=<span class="val">"opt1"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;ul</span> <span class="attr">role</span>=<span class="val">"listbox"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;li</span> <span class="attr">role</span>=<span class="val">"option"</span> <span class="attr good">tabindex</span>=<span class="val good">"-1"</span><span class="tag">&gt;</span>Abanicos<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;/ul&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ══ S2: ERRORES PREMATUROS ══ -->
+  <section id="s2">
+    <div class="section-label">
+      <span class="impact-badge impact-serious">⚠ Grave</span>
+      <span class="wcag-tag">3.3.1</span>
+      <span class="wcag-tag">4.1.2</span>
+    </div>
+    <h2 class="section-title">F-011 — Errores de validación mostrados en la carga inicial</h2>
+    <p class="section-desc">
+      Los campos "Nombre de empresa" y "Sector" se anuncian como <code>invalid</code> con mensajes de error
+      visibles antes de que el usuario haya interactuado. WCAG exige que los errores aparezcan solo tras interacción.
+    </p>
+
+    <div class="compare">
+      <div class="card">
+        <div class="card-header before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Problema actual
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--gray-700);">Al cargar la página, los campos ya tienen <code>aria-invalid="true"</code> y mensajes de error activos.</p>
+          <div class="demo-ui">
+            <label class="field-label" for="empresa-bad">Nombre de la empresa *</label>
+            <input class="field invalid" id="empresa-bad" type="text" aria-invalid="true" aria-describedby="empresa-err-bad" placeholder="Ej. Panadería Moncada" />
+            <div class="error-msg" id="empresa-err-bad" role="alert">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Introduce el nombre de la empresa
+            </div>
+          </div>
+          <div class="sr-output">
+            <span class="label">Al cargar la página</span>
+            <span class="bad">textbox, Nombre de la empresa, invalid, required</span><br>
+            <span class="bad">alert: Introduce el nombre de la empresa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header after">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Solución propuesta
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--gray-700);">Estado neutral al cargar. El error aparece solo al salir del campo vacío o al intentar enviar.</p>
+          <div class="demo-ui">
+            <label class="field-label" for="empresa-good">Nombre de la empresa *</label>
+            <input class="field" id="empresa-good" type="text" aria-invalid="false" placeholder="Ej. Panadería Moncada" />
+            <p style="font-size:11px;color:var(--gray-400);margin-top:5px;">Sin errores en carga inicial — aparecen tras blur o submit</p>
+            <br/>
+            <label class="field-label" for="empresa-good2">Tras salir del campo vacío:</label>
+            <input class="field invalid" id="empresa-good2" type="text" aria-invalid="true" aria-describedby="empresa-err-good" placeholder="Ej. Panadería Moncada" />
+            <div class="error-msg" id="empresa-err-good" role="alert">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Introduce el nombre de la empresa
+            </div>
+          </div>
+          <div class="sr-output">
+            <span class="label">Al cargar la página</span>
+            <span class="good">textbox, Nombre de la empresa, not invalid, required</span><br>
+            <span class="dim">— sin alertas —</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fix-box">
+      <h4>Cambios de código necesarios</h4>
+      <ul>
+        <li>Inicializar todos los campos con <code>aria-invalid="false"</code> (o sin el atributo)</li>
+        <li>Activar la validación solo en <code>blur</code> (campo vacío) o en <code>submit</code></li>
+        <li>El contenedor <code>role="alert"</code> debe estar vacío al cargar; añadir el texto dinámicamente cuando se produzca el error</li>
+      </ul>
+      <pre class="code"><span class="cmt">// ✗ Antes — validación al montar</span>
+<span class="bad">useEffect(() => { validateAll(); }, []);</span>
+
+<span class="cmt">// ✓ Después — validación tras interacción</span>
+<span class="good">&lt;input onBlur={validateField} aria-invalid={hasError} /&gt;</span>
+<span class="good">&lt;div role="alert"&gt;{hasError ? mensajeError : ''}&lt;/div&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ══ S3: ORDEN ENCABEZADOS ══ -->
+  <section id="s3">
+    <div class="section-label">
+      <span class="impact-badge impact-moderate">◆ Moderado</span>
+      <span class="wcag-tag">1.3.1</span>
+      <span class="wcag-tag">2.4.6</span>
+    </div>
+    <h2 class="section-title">F-003 — Orden de encabezados roto por el modal de cookies</h2>
+    <p class="section-desc">
+      El primer <code>&lt;h2&gt;</code> del DOM pertenece al modal de cookies ("Valoramos tu privacidad"),
+      antes del <code>&lt;h1&gt;</code> de la página. Los usuarios que navegan por encabezados encuentran
+      un h2 sin contexto antes que el h1.
+    </p>
+
+    <div class="compare">
+      <div class="card">
+        <div class="card-header before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Estructura DOM actual
+        </div>
+        <div class="card-body">
+          <div class="dom-tree bad">
+            <div><span class="dim">&lt;body&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;div class="cookie-modal"&gt;</span></div>
+            <div style="margin-left:32px"><span class="err">⚠ &lt;h2&gt;Valoramos tu privacidad&lt;/h2&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;/div&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;header&gt; … &lt;/header&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;main&gt;</span></div>
+            <div style="margin-left:32px"><span class="h1">&lt;h1&gt;Tu empresa en la Guía Útil&lt;/h1&gt;</span></div>
+            <div style="margin-left:32px"><span class="h2">&lt;h2&gt;Háblanos de tu empresa&lt;/h2&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;/main&gt;</span></div>
+          </div>
+          <div class="sr-output">
+            <span class="label">Navegación por encabezados (tecla H)</span>
+            <span class="bad">1· h2 "Valoramos tu privacidad" ← ¿qué h1 lo precede?</span><br>
+            <span class="dim">2· h1 "Tu empresa en la Guía Útil"</span><br>
+            <span class="dim">3· h2 "Háblanos de tu empresa"</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header after">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Estructura DOM corregida
+        </div>
+        <div class="card-body">
+          <div class="dom-tree good">
+            <div><span class="dim">&lt;body&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;header&gt; … &lt;/header&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;main&gt;</span></div>
+            <div style="margin-left:32px"><span class="h1">&lt;h1&gt;Tu empresa en la Guía Útil&lt;/h1&gt;</span></div>
+            <div style="margin-left:32px"><span class="h2">&lt;h2&gt;Háblanos de tu empresa&lt;/h2&gt;</span></div>
+            <div style="margin-left:16px"><span class="dim">&lt;/main&gt;</span></div>
+            <div style="margin-left:16px"><span class="ok">✓ &lt;div role="dialog" aria-modal="true"</span></div>
+            <div style="margin-left:32px"><span class="ok">    aria-labelledby="cookie-title"&gt;</span></div>
+            <div style="margin-left:48px"><span class="ok">&lt;h2 id="cookie-title"&gt;Valoramos tu privacidad&lt;/h2&gt;</span></div>
+            <div style="margin-left:16px"><span class="ok">&lt;/div&gt;  &lt;!-- al final del body --&gt;</span></div>
+          </div>
+          <div class="sr-output">
+            <span class="label">Navegación por encabezados (tecla H)</span>
+            <span class="good">1· h1 "Tu empresa en la Guía Útil"</span><br>
+            <span class="good">2· h2 "Háblanos de tu empresa"</span><br>
+            <span class="dim">   (modal al final del DOM — no interfiere)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fix-box">
+      <h4>Cambios de código necesarios</h4>
+      <ul>
+        <li>Mover el modal de cookies al final del <code>&lt;body&gt;</code></li>
+        <li>Añadir <code>role="dialog"</code>, <code>aria-modal="true"</code> y <code>aria-labelledby</code> al contenedor</li>
+        <li>Al abrir el modal, mover el foco a su interior; al cerrarlo, devolverlo al elemento que lo activó</li>
+      </ul>
+      <pre class="code"><span class="tag">&lt;div</span> <span class="attr">role</span>=<span class="val">"dialog"</span> <span class="attr">aria-modal</span>=<span class="val">"true"</span>
+     <span class="attr">aria-labelledby</span>=<span class="val">"cookie-title"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h2</span> <span class="attr">id</span>=<span class="val">"cookie-title"</span><span class="tag">&gt;</span>Valoramos tu privacidad<span class="tag">&lt;/h2&gt;</span>
+  …
+<span class="tag">&lt;/div&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ══ S4: LOGO SIN ALT ══ -->
+  <section id="s4">
+    <div class="section-label">
+      <span class="impact-badge impact-serious">⚠ Grave</span>
+      <span class="wcag-tag">1.1.1</span>
+    </div>
+    <h2 class="section-title">F-013 — Logo del header sin texto alternativo</h2>
+    <p class="section-desc">
+      El banner aparece vacío en el árbol de accesibilidad: ninguna imagen ni enlace al logotipo es anunciado.
+      Si el logo es el único identificador de la marca en el header, su alt text es obligatorio.
+    </p>
+
+    <div class="compare">
+      <div class="card">
+        <div class="card-header before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Problema actual
+        </div>
+        <div class="card-body">
+          <div class="demo-ui" style="display:flex;align-items:center;gap:12px;">
+            <a href="#" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+              <div class="logo-box">Q</div>
+            </a>
+            <div>
+              <span class="alt-pill alt-missing">alt ausente</span>
+              <p style="font-size:12px;color:var(--gray-400);margin-top:4px;">El enlace del logo no tiene nombre accesible</p>
+            </div>
+          </div>
+          <div class="sr-output">
+            <span class="label">SR sobre el logo</span>
+            <span class="bad">link  ← sin descripción</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header after">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Solución propuesta
+        </div>
+        <div class="card-body">
+          <div class="demo-ui" style="display:flex;align-items:center;gap:12px;">
+            <a href="#" aria-label="QDQ - Ir a inicio" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+              <div class="logo-box">Q</div>
+            </a>
+            <div>
+              <span class="alt-pill alt-ok">aria-label="QDQ - Ir a inicio"</span>
+              <p style="font-size:12px;color:var(--gray-400);margin-top:4px;">Comunica marca y destino</p>
+            </div>
+          </div>
+          <div class="sr-output">
+            <span class="label">SR sobre el logo</span>
+            <span class="good">link, QDQ - Ir a inicio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fix-box">
+      <h4>Cambios de código necesarios</h4>
+      <ul>
+        <li>Si el logo es <code>&lt;img&gt;</code>: añadir <code>alt="QDQ"</code></li>
+        <li>Si el logo es SVG inline: añadir <code>&lt;title&gt;QDQ&lt;/title&gt;</code> dentro del SVG</li>
+        <li>Si está dentro de <code>&lt;a&gt;</code>: añadir <code>aria-label="QDQ - Ir a inicio"</code> al enlace e <code>alt=""</code> a la imagen</li>
+      </ul>
+      <pre class="code"><span class="cmt">&lt;!-- ✗ Antes --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span><span class="tag">&gt;&lt;img</span> <span class="attr">src</span>=<span class="val">"logo.svg"</span> <span class="tag">/&gt;&lt;/a&gt;</span>
+
+<span class="cmt">&lt;!-- ✓ Después --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span> <span class="attr good">aria-label</span>=<span class="val good">"QDQ - Ir a inicio"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"logo.svg"</span> <span class="attr good">alt</span>=<span class="val good">""</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/a&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ══ S5: INDICADOR DE PASOS ══ -->
+  <section id="s5">
+    <div class="section-label">
+      <span class="impact-badge impact-moderate">◆ Moderado</span>
+      <span class="wcag-tag">1.3.1</span>
+      <span class="wcag-tag">4.1.2</span>
+    </div>
+    <h2 class="section-title">F-014 — Indicador de progreso sin nombres descriptivos</h2>
+    <p class="section-desc">
+      El indicador de pasos anuncia "part 1", "part 2", "part 3" en lugar de los nombres reales de cada etapa.
+      Un usuario de lector de pantalla no sabe qué implica cada paso del proceso de registro.
+    </p>
+
+    <div class="compare">
+      <div class="card">
+        <div class="card-header before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Problema actual
+        </div>
+        <div class="card-body">
+          <div class="demo-ui">
+            <p style="font-size:12px;font-weight:600;margin-bottom:8px;">Paso 1 de 3</p>
+            <div class="progress-bar">
+              <div class="step active"></div>
+              <div class="step"></div>
+              <div class="step"></div>
+            </div>
+            <div class="step-labels">
+              <div class="step-lbl active">part 1</div>
+              <div class="step-lbl">part 2</div>
+              <div class="step-lbl">part 3</div>
+            </div>
+          </div>
+          <div class="sr-output">
+            <span class="label">SR anuncia</span>
+            <span class="dim">Paso 1 de 3</span><br>
+            <span class="bad">part 1 · part 2 · part 3</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header after">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Solución propuesta
+        </div>
+        <div class="card-body">
+          <div class="demo-ui">
+            <nav aria-label="Progreso del registro">
+              <ol style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+                <li style="display:flex;align-items:center;gap:10px;" aria-current="step">
+                  <div class="step active" style="width:40px;height:6px;flex:none;border-radius:3px;"></div>
+                  <span style="font-size:12px;font-weight:700;color:var(--accent);">1. Datos de empresa <em style="font-weight:400">(actual)</em></span>
+                </li>
+                <li style="display:flex;align-items:center;gap:10px;">
+                  <div class="step" style="width:40px;height:6px;flex:none;border-radius:3px;"></div>
+                  <span style="font-size:12px;color:var(--gray-400);">2. Datos de contacto</span>
+                </li>
+                <li style="display:flex;align-items:center;gap:10px;">
+                  <div class="step" style="width:40px;height:6px;flex:none;border-radius:3px;"></div>
+                  <span style="font-size:12px;color:var(--gray-400);">3. Confirmación</span>
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <div class="sr-output">
+            <span class="label">SR anuncia</span>
+            <span class="good">navigation, Progreso del registro</span><br>
+            <span class="good">1. Datos de empresa (actual)</span><br>
+            <span class="good">2. Datos de contacto</span><br>
+            <span class="good">3. Confirmación</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fix-box">
+      <h4>Cambios de código necesarios</h4>
+      <ul>
+        <li>Envolver en <code>&lt;nav aria-label="Progreso del registro"&gt;</code></li>
+        <li>Usar <code>&lt;ol&gt;</code> + <code>&lt;li&gt;</code> con el nombre real de cada paso</li>
+        <li>Marcar el paso activo con <code>aria-current="step"</code></li>
+      </ul>
+      <pre class="code"><span class="tag">&lt;nav</span> <span class="attr">aria-label</span>=<span class="val">"Progreso del registro"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;ol&gt;</span>
+    <span class="tag">&lt;li</span> <span class="attr good">aria-current</span>=<span class="val good">"step"</span><span class="tag">&gt;</span>Datos de empresa<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Datos de contacto<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Confirmación<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;/ol&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ══ S6: FORMULARIO SIN NOMBRE ══ -->
+  <section id="s6">
+    <div class="section-label">
+      <span class="impact-badge impact-moderate">◆ Moderado</span>
+      <span class="wcag-tag">1.3.1</span>
+      <span class="wcag-tag">4.1.2</span>
+    </div>
+    <h2 class="section-title">F-009 — Formulario sin nombre accesible</h2>
+    <p class="section-desc">
+      El <code>&lt;form&gt;</code> se anuncia como "form" sin nombre que describa su propósito.
+      Con varios formularios en la página (cookies + registro), el nombre accesible es clave para orientarse.
+    </p>
+
+    <div class="compare">
+      <div class="card">
+        <div class="card-header before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Problema actual
+        </div>
+        <div class="card-body">
+          <div class="sr-output">
+            <span class="label">Al entrar al landmark form</span>
+            <span class="bad">form</span><br>
+            <span class="dim">— sin contexto de propósito —</span>
+          </div>
+          <pre class="code" style="margin-top:12px;"><span class="tag">&lt;form</span> <span class="attr">method</span>=<span class="val">"post"</span><span class="tag">&gt;</span> …<span class="tag">&lt;/form&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header after">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Solución propuesta
+        </div>
+        <div class="card-body">
+          <div class="sr-output">
+            <span class="label">Al entrar al landmark form</span>
+            <span class="good">form, Registro de empresa</span>
+          </div>
+          <pre class="code" style="margin-top:12px;"><span class="cmt">&lt;!-- Opción A --&gt;</span>
+<span class="tag">&lt;form</span> <span class="attr good">aria-label</span>=<span class="val good">"Registro de empresa"</span><span class="tag">&gt;</span>
+
+<span class="cmt">&lt;!-- Opción B (referencia al h2) --&gt;</span>
+<span class="tag">&lt;h2</span> <span class="attr">id</span>=<span class="val">"form-title"</span><span class="tag">&gt;</span>Háblanos de tu empresa<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;form</span> <span class="attr good">aria-labelledby</span>=<span class="val good">"form-title"</span><span class="tag">&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ══ S7: LO QUE FUNCIONA ══ -->
+  <section id="s7">
+    <div class="section-label">
+      <span class="impact-badge impact-pass">✓ Correcto</span>
+    </div>
+    <h2 class="section-title">Lo que ya funciona correctamente</h2>
+    <p class="section-desc">Estos elementos no requieren cambios.</p>
+
+    <div class="passes-grid">
+      <div class="pass-card">
+        <div class="pass-icon">🗺️</div>
+        <div>
+          <h4>Landmarks completos</h4>
+          <p>banner, main, form, contentinfo y navigation presentes y correctos</p>
+        </div>
+      </div>
+      <div class="pass-card">
+        <div class="pass-icon">📋</div>
+        <div>
+          <h4>H1 único y descriptivo</h4>
+          <p>"Tu empresa en la Guía Útil" — un único h1 con texto significativo</p>
+        </div>
+      </div>
+      <div class="pass-card">
+        <div class="pass-icon">🔗</div>
+        <div>
+          <h4>Textos de enlace descriptivos</h4>
+          <p>Sin enlaces genéricos del tipo "haz clic aquí" o "más información"</p>
+        </div>
+      </div>
+      <div class="pass-card">
+        <div class="pass-icon">🏷️</div>
+        <div>
+          <h4>Campo "Nombre de empresa"</h4>
+          <p>Label visible, placeholder informativo y required correctamente anunciado</p>
+        </div>
+      </div>
+      <div class="pass-card">
+        <div class="pass-icon">🌐</div>
+        <div>
+          <h4>Campo "Página web (opcional)"</h4>
+          <p>Etiquetado correctamente, sin required, placeholder descriptivo</p>
+        </div>
+      </div>
+      <div class="pass-card">
+        <div class="pass-icon">🔘</div>
+        <div>
+          <h4>Botón "Ir a datos de empresa"</h4>
+          <p>Estado disabled anunciado correctamente cuando el formulario no es válido</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.toc a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.toc a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  document.querySelectorAll('.toc a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
