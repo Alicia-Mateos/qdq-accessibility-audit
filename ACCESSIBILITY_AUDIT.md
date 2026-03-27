@@ -12,8 +12,8 @@
 
 | Métrica | Resultado |
 |---------|-----------|
-| Total de hallazgos | 15 |
-| Violaciones | 4 |
+| Total de hallazgos | 16 |
+| Violaciones | 5 |
 | Avisos | 5 |
 | Correctos | 6 |
 
@@ -95,6 +95,56 @@ useEffect(() => { validateAll(); }, []);
 <div role="alert" id="error-id">
   {hasError ? 'Introduce el nombre de la empresa' : ''}
 </div>
+```
+
+---
+
+### 🔴 F-016 — Mensajes de error no anunciados al lector de pantalla
+
+**Impacto:** Grave
+**WCAG:** 4.1.3 Mensajes de estado · 3.3.1 Identificación de errores
+
+**Problema:**
+Tras salir de un campo vacío (blur), la validación puede mostrar un borde rojo visualmente, pero no actualiza `aria-invalid` ni inyecta texto en ningún live region. El lector de pantalla nunca anuncia el error. Además, no existe ningún contenedor `role="alert"` en el árbol de accesibilidad entre el input y el siguiente campo: el árbol pasa directamente de un textbox al siguiente sin nodo de error intermedio.
+
+Log del lector de pantalla tras blur vacío:
+```
+textbox, Nombre de la empresa, not invalid  ← nunca cambia
+— sin alerta, sin mensaje de error —
+textbox, Elige el sector… not invalid
+```
+
+**Corrección:**
+Cada input necesita un `role="alert"` vacío al cargar, vinculado mediante `aria-describedby`. La validación en blur debe actualizar `aria-invalid` e inyectar el texto del error dinámicamente:
+
+```html
+<!-- ✗ Antes: solo CSS, sin semántica -->
+<input class="input--error" aria-invalid="false" />
+<p class="error-msg">Introduce el nombre</p>  <!-- invisible para SR -->
+
+<!-- ✓ Después: semántica + live region -->
+<input
+  id="nombre"
+  aria-invalid="false"
+  aria-describedby="nombre-err"
+/>
+<span id="nombre-err" role="alert" aria-live="assertive"></span>
+```
+
+```js
+// JS — validación en blur
+input.addEventListener('blur', () => {
+  if (!input.value.trim()) {
+    input.setAttribute('aria-invalid', 'true');
+    errorSpan.textContent = 'Introduce el nombre de la empresa';
+  }
+});
+input.addEventListener('input', () => {
+  if (input.value.trim()) {
+    input.setAttribute('aria-invalid', 'false');
+    errorSpan.textContent = '';
+  }
+});
 ```
 
 ---
@@ -243,6 +293,7 @@ Los pasos anuncian "part 1", "part 2", "part 3". Implementar con semántica de l
 | F-013 | Aviso | Grave | 1.1.1 | Logo sin alt text |
 | F-014 | Aviso | Moderado | 1.3.1, 4.1.2 | Indicador de progreso |
 | F-015 | Violación | Crítico | 2.1.1, 2.1.2, 2.4.3 | Trampa de teclado (navegación global) |
+| F-016 | Violación | Grave | 4.1.3, 3.3.1 | Mensajes de error no anunciados al SR |
 
 ---
 
@@ -251,6 +302,7 @@ Los pasos anuncian "part 1", "part 2", "part 3". Implementar con semántica de l
 ```
 BLOQUEADOR   F-007 / F-015  Trampa de teclado en selector de sector
 GRAVE        F-011           Errores de validación en carga inicial
+GRAVE        F-016           Mensajes de error no anunciados al lector de pantalla
 MODERADO     F-003           Orden de encabezados (modal cookies)
 MODERADO     F-013           Logo sin alt text
 MENOR        F-001           Título de página
