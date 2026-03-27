@@ -456,11 +456,12 @@
 <nav class="toc" aria-label="Secciones del informe">
   <a href="#s1" class="active">Trampa de teclado <span class="chip chip-red">Crítico</span></a>
   <a href="#s2">Errores prematuros <span class="chip chip-red">Grave</span></a>
-  <a href="#s3">Orden encabezados <span class="chip chip-orange">Moderado</span></a>
-  <a href="#s4">Logo sin alt <span class="chip chip-orange">Grave</span></a>
-  <a href="#s5">Indicador de pasos <span class="chip chip-orange">Moderado</span></a>
-  <a href="#s6">Formulario sin nombre <span class="chip chip-orange">Moderado</span></a>
-  <a href="#s7">Lo que funciona <span class="chip chip-green">✓</span></a>
+  <a href="#s3">Errores no anunciados <span class="chip chip-red">Grave</span></a>
+  <a href="#s4">Orden encabezados <span class="chip chip-orange">Moderado</span></a>
+  <a href="#s5">Logo sin alt <span class="chip chip-orange">Grave</span></a>
+  <a href="#s6">Indicador de pasos <span class="chip chip-orange">Moderado</span></a>
+  <a href="#s7">Formulario sin nombre <span class="chip chip-orange">Moderado</span></a>
+  <a href="#s8">Lo que funciona <span class="chip chip-green">✓</span></a>
 </nav>
 
 <main>
@@ -654,8 +655,112 @@
 
   <hr />
 
-  <!-- ══ S3: ORDEN ENCABEZADOS ══ -->
+  <!-- ══ S3: ERRORES NO ANUNCIADOS ══ -->
   <section id="s3">
+    <div class="section-label">
+      <span class="impact-badge impact-serious">⚠ Grave</span>
+      <span class="wcag-tag">4.1.3</span>
+      <span class="wcag-tag">3.3.1</span>
+    </div>
+    <h2 class="section-title">F-016 — Los mensajes de error no se anuncian al lector de pantalla</h2>
+    <p class="section-desc">
+      Tras salir de un campo vacío (blur), la validación puede mostrar un borde rojo visualmente,
+      pero <strong>no actualiza <code>aria-invalid</code> ni inyecta texto en un live region</strong>.
+      El lector de pantalla nunca anuncia el error. Además, no existe ningún contenedor
+      <code>role="alert"</code> en el árbol de accesibilidad entre el input y el siguiente campo.
+    </p>
+
+    <div class="compare">
+      <div class="card">
+        <div class="card-header before">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Problema actual
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--text-muted);">La validación solo añade una clase CSS para el borde rojo. <code style="background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;">aria-invalid</code> nunca cambia y no existe ningún <code style="background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;">role="alert"</code>.</p>
+          <div class="demo-ui">
+            <label class="field-label" for="nombre-bad">Nombre de la empresa *</label>
+            <input class="field invalid" id="nombre-bad" type="text"
+              aria-invalid="false"
+              placeholder="Ej. Panadería Moncada" />
+            <p style="color:#8B3A1A;font-size:12px;margin-top:5px;font-weight:500;">
+              ← visible en pantalla, pero aria-invalid sigue siendo false
+            </p>
+          </div>
+          <div class="sr-output">
+            <span class="label">Log del lector de pantalla tras blur</span>
+            <span class="bad">textbox, Nombre de la empresa, not invalid ← nunca cambia</span><br>
+            <span class="dim">— sin alerta, sin mensaje de error —</span><br>
+            <span class="dim">textbox, Elige el sector… not invalid</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header after">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Solución propuesta
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--text-muted);">Cada input tiene su <code style="background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;">role="alert"</code> vacío al cargar. El blur actualiza <code style="background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;">aria-invalid</code> e inyecta el mensaje.</p>
+          <div class="demo-ui" id="demo-good-error">
+            <label class="field-label" for="nombre-good-demo">Nombre de la empresa *</label>
+            <input class="field" id="nombre-good-demo" type="text"
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="nombre-good-err"
+              placeholder="Ej. Panadería Moncada"
+            />
+            <span id="nombre-good-err" role="alert" aria-live="assertive" style="display:block;font-size:12px;font-weight:500;color:#8B3A1A;margin-top:5px;min-height:18px;"></span>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">Pulsa Tab sin escribir nada para ver el error →</p>
+          </div>
+          <div class="sr-output" id="sr-log-good">
+            <span class="label">Log del lector de pantalla tras blur</span>
+            <span class="good" id="sr-log-text">esperando interacción…</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fix-box">
+      <h4>Cambios de código necesarios</h4>
+      <ul>
+        <li>Añadir <code>aria-describedby="[id-error]"</code> al input y un <code>&lt;span role="alert"&gt;</code> vacío asociado</li>
+        <li>En el handler de <code>blur</code>: setear <code>aria-invalid="true"</code> e inyectar el texto del error en el span</li>
+        <li>En el handler de <code>input</code>: resetear <code>aria-invalid="false"</code> y vaciar el span para limpiar la alerta</li>
+      </ul>
+      <pre class="code"><span class="cmt">&lt;!-- ✗ Antes: solo CSS, sin semántica --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr bad">class</span>=<span class="val bad">"input--error"</span> <span class="attr bad">aria-invalid</span>=<span class="val bad">"false"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr bad">class</span>=<span class="val bad">"error-msg"</span><span class="tag">&gt;</span>Introduce el nombre<span class="tag">&lt;/p&gt;</span>  <span class="cmt">&lt;!-- invisible para SR --&gt;</span>
+
+<span class="cmt">&lt;!-- ✓ Después: semántica + live region --&gt;</span>
+<span class="tag">&lt;input</span>
+  <span class="attr">id</span>=<span class="val">"nombre"</span>
+  <span class="attr good">aria-invalid</span>=<span class="val good">"false"</span>
+  <span class="attr good">aria-describedby</span>=<span class="val good">"nombre-err"</span>
+<span class="tag">/&gt;</span>
+<span class="tag">&lt;span</span> <span class="attr good">id</span>=<span class="val good">"nombre-err"</span> <span class="attr good">role</span>=<span class="val good">"alert"</span> <span class="attr good">aria-live</span>=<span class="val good">"assertive"</span><span class="tag">&gt;&lt;/span&gt;</span>
+
+<span class="cmt">// JS — validación en blur</span>
+<span class="good">input.addEventListener('blur', () => {
+  if (!input.value.trim()) {
+    input.setAttribute('aria-invalid', 'true');
+    errorSpan.textContent = 'Introduce el nombre de la empresa';
+  }
+});
+input.addEventListener('input', () => {
+  if (input.value.trim()) {
+    input.setAttribute('aria-invalid', 'false');
+    errorSpan.textContent = '';
+  }
+});</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ══ S4: ORDEN ENCABEZADOS ══ -->
+  <section id="s4">
     <div class="section-label">
       <span class="impact-badge impact-moderate">◆ Moderado</span>
       <span class="wcag-tag">1.3.1</span>
@@ -739,8 +844,8 @@
 
   <hr />
 
-  <!-- ══ S4: LOGO ══ -->
-  <section id="s4">
+  <!-- ══ S5: LOGO ══ -->
+  <section id="s5">
     <div class="section-label">
       <span class="impact-badge impact-serious">⚠ Grave</span>
       <span class="wcag-tag">1.1.1</span>
@@ -816,8 +921,8 @@
 
   <hr />
 
-  <!-- ══ S5: INDICADOR DE PASOS ══ -->
-  <section id="s5">
+  <!-- ══ S6: INDICADOR DE PASOS ══ -->
+  <section id="s6">
     <div class="section-label">
       <span class="impact-badge impact-moderate">◆ Moderado</span>
       <span class="wcag-tag">1.3.1</span>
@@ -911,8 +1016,8 @@
 
   <hr />
 
-  <!-- ══ S6: FORMULARIO SIN NOMBRE ══ -->
-  <section id="s6">
+  <!-- ══ S7: FORMULARIO SIN NOMBRE ══ -->
+  <section id="s7">
     <div class="section-label">
       <span class="impact-badge impact-moderate">◆ Moderado</span>
       <span class="wcag-tag">1.3.1</span>
@@ -963,8 +1068,8 @@
 
   <hr />
 
-  <!-- ══ S7: LO QUE FUNCIONA ══ -->
-  <section id="s7">
+  <!-- ══ S8: LO QUE FUNCIONA ══ -->
+  <section id="s8">
     <div class="section-label">
       <span class="impact-badge impact-pass">✓ Correcto</span>
     </div>
@@ -1039,6 +1144,34 @@
       document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
     });
   });
+
+  // ── Demo interactivo S7: error anunciado correctamente ──
+  const demoInput = document.getElementById('nombre-good-demo');
+  const demoError = document.getElementById('nombre-good-err');
+  const srLogText = document.getElementById('sr-log-text');
+
+  if (demoInput) {
+    demoInput.addEventListener('blur', () => {
+      if (!demoInput.value.trim()) {
+        demoInput.setAttribute('aria-invalid', 'true');
+        demoInput.classList.add('invalid');
+        demoError.textContent = 'Introduce el nombre de la empresa';
+        srLogText.style.color = '#C1FC6E';
+        srLogText.innerHTML =
+          '<span style="color:#C1FC6E">textbox, Nombre de la empresa, <strong>invalid</strong>, required</span><br>' +
+          '<span style="color:#C1FC6E">⚡ alert: Introduce el nombre de la empresa</span>';
+      }
+    });
+    demoInput.addEventListener('input', () => {
+      if (demoInput.value.trim()) {
+        demoInput.setAttribute('aria-invalid', 'false');
+        demoInput.classList.remove('invalid');
+        demoError.textContent = '';
+        srLogText.innerHTML =
+          '<span style="color:#C1FC6E">textbox, Nombre de la empresa, not invalid</span>';
+      }
+    });
+  }
 </script>
 </body>
 </html>
